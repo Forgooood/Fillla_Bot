@@ -1,8 +1,6 @@
 from models.User import User
 from resources.Resources import Resources
 import sqlite3
-import telebot
-from telebot import types
 
 class UserService:
 
@@ -18,12 +16,13 @@ class UserService:
                 'sex VARCHAR(30),' +\
                 'money INTEGER,' +\
                 'marital_status TEXT,' +\
-                'job VARCHAR(30));'
+                'job VARCHAR(30),' +\
+                'age INTEGER);'
             cursor.execute(statement)
             db.commit()
 
 
-    def __insert_data(self, id, column, data):
+    def insertData(self, id, column, data):
         try:
             db = sqlite3.connect(Resources.database)
             cursor = db.cursor()
@@ -45,7 +44,7 @@ class UserService:
             db.close()
     
 
-    def __update_data(self, id, username, column, data):
+    def updateDataById(self, id, column, data):
         try:
 
             db = sqlite3.connect(Resources.database)
@@ -56,12 +55,34 @@ class UserService:
 
             if s is None:
                 print('User with id ' + str(id) + ' not found')  
-                self.__insert_data(id, "name", username)
-                self.__update_data(id, username, column, data)
             else:
                 cursor.execute(f'UPDATE users SET {column} = ? WHERE id = ?', [data, id])
             
             db.commit()
+        except sqlite3.Error as e:
+            print('Error: ', e)
+        finally:
+            cursor.close()
+            db.close()
+        
+    
+    def getDataById(seld, id, nameColumn):
+        try:
+            
+            db = sqlite3.connect(Resources.database)
+            cursor = db.cursor()
+            cursor.execute(f"SELECT {nameColumn} FROM users WHERE id = {id};")
+
+            res = cursor.fetchone()
+
+            db.commit()
+
+            if res is None:
+                print('User with id ' + str(id) + ' not found.')  
+                return None
+            else:
+                return res[0]
+
         except sqlite3.Error as e:
             print('Error: ', e)
         finally:
@@ -105,7 +126,7 @@ class UserService:
                 print('User with id ' + str(id) + ' not found.')  
                 return None
             else:
-                return User(res[0], res[1], res[2], res[3], res[4], res[5], res[6])
+                return User(res[0], res[1], res[2], res[3], res[4], res[5], res[6], res[7])
 
         except sqlite3.Error as e:
             print('Error: ', e)
@@ -113,13 +134,15 @@ class UserService:
             cursor.close()
             db.close()
 
-    
-    def addColumn(self, nameColumn, typeColumn):
+
+        
+    def deleteUser(self, id):
         try:
             
             db = sqlite3.connect(Resources.database)
             cursor = db.cursor()
-            cursor.execute(f"ALTER TABLE users ADD COLUMN {nameColumn} {typeColumn};")
+            cursor.execute(f"DELETE from users WHERE id = {id};")
+            print(f"User with id {id} deleted.")
             db.commit()
 
         except sqlite3.Error as e:
@@ -129,32 +152,6 @@ class UserService:
             db.close()
 
 
-    def createUserIfNotExist(self, id, username):
-        self.__insert_data(id, "name", username)
-    
-
-    def updateNameById(self, id, username):
-        self.__update_data(id, username, "name", username)
-
-
-    def updateDescriptionById(self, id, username, description):
-        self.__update_data(id, username, "description", description)
-    
-
-    def updateSexById(self, id, username, sex):
-        self.__update_data(id, username, "sex", sex)
-    
-
-    def updateMoneyById(self, id, username, money):
-        self.__update_data(id, username, "money", money)
-    
-
-    def updateMaritalStatusById(self, id, username, marital_status):
-        self.__update_data(id, username, "marital_status", marital_status)
-    
-
-    def updateJobById(self, id, username, job):
-        self.__update_data(id, username, "job", job)
     
     
 
