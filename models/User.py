@@ -1,6 +1,6 @@
 class User:
 
-    def __init__(self, id, name, description, sex, money, marital_status, job):
+    def __init__(self, id, name, description, sex, money, marital_status, job, age):
         self.__id = id
         self.__name = name
         self.__description = description
@@ -8,6 +8,7 @@ class User:
         self.__money = money
         self.__marital_status = marital_status
         self.__job = job
+        self.__age = age
     
 
     def getId(self):
@@ -36,4 +37,7 @@ class User:
 
     def getJob(self):
         return self.__job
+
+    def getAge(self):
+        return self.__age
     
