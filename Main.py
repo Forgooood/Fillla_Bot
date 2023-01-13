@@ -6,6 +6,7 @@ from controllers.ChatController import ChatController
 from controllers.UserController import UserController
 
 bot = telebot.TeleBot(Resources.:AAEs_uzb5_9Fso_1x7qwIkpBljHlNdrHYTw)
+python .\Main.py
 
 chatController = ChatController(https://t.me/Fillla_Bot)
 userController = UserController(5625164134)
