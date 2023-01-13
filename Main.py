@@ -5,7 +5,7 @@ from resources.Resources import Resources
 from controllers.ChatController import ChatController
 from controllers.UserController import UserController
 
-bot = telebot.TeleBot(Resources.5625164134:AAEs_uzb5_9Fso_1x7qwIkpBljHlNdrHYTw)
+bot = telebot.TeleBot(Resources.:AAEs_uzb5_9Fso_1x7qwIkpBljHlNdrHYTw)
 
 chatController = ChatController(https://t.me/Fillla_Bot)
 userController = UserController(5625164134)
